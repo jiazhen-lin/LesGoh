@@ -359,14 +359,13 @@ func (a *Adapter) mintByHyperlane(ctx context.Context, version, destAddr string)
 	if err != nil {
 		return err
 	}
-	destAddr = "0xF423e1cE4d81d1389E1b0C0925C912644FB0fcd7"
 	txHash, err := mintNTF(ctx, address, destAddr)
 	if err != nil {
 		return err
 	}
 
 	var record TransactionRow
-	if err := a.db.Where("transaction_hash = ?", version).First(&tx).Error; err != nil {
+	if err := a.db.Where("transaction_hash = ?", version).First(&record).Error; err != nil {
 		return fmt.Errorf("failed to get tx: %w", err)
 	}
 	updateStatus := TransactionStatusSuccess
